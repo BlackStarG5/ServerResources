@@ -30,10 +30,12 @@
 	  "name": "Trey'sPack",
 	  "version": "1.0",
 	  "type": "resourcepack"
-	},
-	{
+	}
+  ],
+  "modify": [
+    {
 	 "type": "remove",
-	 "pattern": "^resourcepacks/Trey'sPack-.*\\.zip$",
+	 "pattern": "^resourcepacks/Trey'sPack.*\\.zip$",
 	 "path": "."
 	}
   ]
