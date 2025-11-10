@@ -30,6 +30,13 @@
 	  "name": "Trey'sPack",
 	  "version": "1.21",
 	  "type": "resourcepack"
+	},
+	{
+	  "url": "https://github.com/BlackStarG5/ServerResources/raw/refs/heads/main/Resources/Config.zip",
+	  "name": "Configs",
+	  "version": "1.0",
+	  "type": "packed",
+	  "directory": "config/paxi"
 	}
   ],
   "modify": [
