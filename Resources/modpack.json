@@ -1,5 +1,5 @@
 {
-  "sync_version": 1.2,
+  "sync_version": 1.1,
   "sync": [
     {
       "url": "https://github.com/BlackStarG5/ServerResources/raw/refs/heads/main/Resources/cobblemon_quests-%5B1.21.1%5D-fabric-1.1.14.jar",
@@ -28,15 +28,8 @@
 	{
 	  "url": "https://github.com/BlackStarG5/ServerResources/raw/refs/heads/main/Resources/Trey'sPack.zip",
 	  "name": "Trey'sPack",
-	  "version": "1.21",
+	  "version": "1.2",
 	  "type": "resourcepack"
-	},
-	{
-	  "url": "https://github.com/BlackStarG5/ServerResources/raw/refs/heads/main/Resources/Config.zip",
-	  "name": "Configs",
-	  "version": "1.0",
-	  "type": "config",
-	  "directory": "config/paxi"
 	}
   ],
   "modify": [
