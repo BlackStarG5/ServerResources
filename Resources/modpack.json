@@ -37,6 +37,11 @@
 	 "type": "remove",
 	 "pattern": "^resourcepacks/TreysPack.*\\.zip$",
 	 "path": "."
+	},
+	{
+	 "type": "remove",
+	 "pattern": "^resourcepacks/Trey'sPack.*\\.zip$",
+	 "path": "."
 	}
   ]
 }
