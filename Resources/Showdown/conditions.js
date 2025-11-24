@@ -769,9 +769,6 @@ const Conditions = {
       if (["cramorantgulping", "cramorantgorging"].includes(pokemon.species.id) && !pokemon.transformed) {
         pokemon.formeChange("cramorant");
       }
-	  if (pokemon.baseSpecies.name === "Rayquaza") {
-		  pokemon.canMegaEvo = null;
-	  }
       this.add("-start", pokemon, "Dynamax", pokemon.gigantamax ? "Gmax" : "");
       if (pokemon.baseSpecies.name === "Shedinja")
         return;

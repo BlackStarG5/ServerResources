@@ -357,17 +357,13 @@ const Abilities = {
     rating: 1,
     num: 4
   },
-  battlebond: { 
+  battlebond: {
     onSourceAfterFaint(length, target, source, effect) {
       if (effect?.effectType !== "Move")
         return;
       if (source.abilityState.battleBondTriggered)
         return;
-	  if (source.species.id === "greninjabond" && source.hp && !source.transformed && source.side.foePokemonLeft() && source.happiness >= 250) {
-		  source.formeChange("Greninja-Ash", this.effect, true, "[msg]");
-	      source.abilityState.battleBondTriggered = true;
-	  }
-      if (source.species.id === "greninjabond" && source.hp && !source.transformed && source.side.foePokemonLeft() && source.happiness < 250) {
+      if (source.species.id === "greninjabond" && source.hp && !source.transformed && source.side.foePokemonLeft()) {
         this.boost({ atk: 1, spa: 1, spe: 1 }, source, source, this.effect);
         this.add("-activate", source, "ability: Battle Bond");
         source.abilityState.battleBondTriggered = true;
@@ -1273,31 +1269,26 @@ const Abilities = {
     num: 194
   },
   fairyaura: {
-	  onBeforeSwitchIn(pokemon) {
-        if (pokemon.species.id === "xerneas") {
-          pokemon.formeChange("xerneasactive", this.effect, true);
-        }
-	  },
-      onStart(pokemon) {
-        if (this.suppressingAbility(pokemon))
-          return;
-        this.add("-ability", pokemon, "Fairy Aura");
-      },
-      onAnyBasePowerPriority: 20,
-      onAnyBasePower(basePower, source, target, move) {
-        if (target === source || move.category === "Status" || move.type !== "Fairy")
-          return;
-        if (!move.auraBooster?.hasAbility("Fairy Aura"))
-          move.auraBooster = this.effectState.target;
-        if (move.auraBooster !== this.effectState.target)
-          return;
-        return this.chainModify([move.hasAuraBreak ? 3072 : 5448, 4096]);
-      },
-      flags: {},
-      name: "Fairy Aura",
-      rating: 3,
-      num: 187
+    onStart(pokemon) {
+      if (this.suppressingAbility(pokemon))
+        return;
+      this.add("-ability", pokemon, "Fairy Aura");
     },
+    onAnyBasePowerPriority: 20,
+    onAnyBasePower(basePower, source, target, move) {
+      if (target === source || move.category === "Status" || move.type !== "Fairy")
+        return;
+      if (!move.auraBooster?.hasAbility("Fairy Aura"))
+        move.auraBooster = this.effectState.target;
+      if (move.auraBooster !== this.effectState.target)
+        return;
+      return this.chainModify([move.hasAuraBreak ? 3072 : 5448, 4096]);
+    },
+    flags: {},
+    name: "Fairy Aura",
+    rating: 3,
+    num: 187
+  },
   filter: {
     onSourceModifyDamage(damage, source, target, move) {
       if (target.getMoveHitData(move).typeMod > 0) {
@@ -1378,9 +1369,9 @@ const Abilities = {
     num: 18
   },
   flowergift: {
-	onStart(pokemon) {
-	  this.singleEvent("WeatherChange", this.effect, this.effectState, pokemon);	  
-    },  
+    onStart(pokemon) {
+      this.singleEvent("WeatherChange", this.effect, this.effectState, pokemon);
+    },
     onWeatherChange(pokemon) {
       if (!pokemon.isActive || pokemon.baseSpecies.baseSpecies !== "Cherrim" || pokemon.transformed)
         return;
@@ -1388,11 +1379,11 @@ const Abilities = {
         return;
       if (["sunnyday", "desolateland"].includes(pokemon.effectiveWeather())) {
         if (pokemon.species.id !== "cherrimsunshine") {
-          pokemon.formeChange("Cherrim-Sunshine", this.effect, true, "[msg]");	
+          pokemon.formeChange("Cherrim-Sunshine", this.effect, false, "[msg]");
         }
       } else {
         if (pokemon.species.id === "cherrimsunshine") {
-          pokemon.formeChange("Cherrim", this.effect, true, "[msg]");
+          pokemon.formeChange("Cherrim", this.effect, false, "[msg]");
         }
       }
     },
@@ -1501,7 +1492,7 @@ const Abilities = {
           break;
       }
       if (pokemon.isActive && forme) {
-        pokemon.formeChange(forme, this.effect, true, "[msg]");
+        pokemon.formeChange(forme, this.effect, false, "[msg]");
       }
     },
     flags: { failroleplay: 1, noreceiver: 1, noentrain: 1, notrace: 1 },
@@ -4210,11 +4201,6 @@ const Abilities = {
       if (move.self?.chance)
         move.self.chance *= 2;
     },
-	onSwitchOut(pokemon) {
-      if (pokemon.species.id === "meloettapirouette"){
-        pokemon.formeChange("Meloetta", this.effect, true);
-      }
-    },
     flags: {},
     name: "Serene Grace",
     rating: 3.5,
@@ -4318,25 +4304,33 @@ const Abilities = {
     num: 19
   },
   shieldsdown: {
-		onStart(pokemon) {
-			if (pokemon.hp > pokemon.maxhp / 2 && pokemon.species.id == "minior") {
-				pokemon.formeChange('Minior-Meteor');
-			} else {
-				if (pokemon.species.id == "miniormeteor") {
-					return;
-				}
-			}
-		},
-		onResidualOrder: 29,
-		onResidual(pokemon) {
-			if (pokemon.hp > pokemon.maxhp / 2 && pokemon.species.id == "minior") {
-				pokemon.formeChange('Minior-Meteor');
-			} else {
-				if (pokemon.hp < pokemon.maxhp / 2 && pokemon.species.id == "miniormeteor") {
-					pokemon.formeChange('Minior');
-				}
-			}
-		},
+    onStart(pokemon) {
+      if (pokemon.baseSpecies.baseSpecies !== "Minior" || pokemon.transformed)
+        return;
+      if (pokemon.hp > pokemon.maxhp / 2) {
+        if (pokemon.species.forme !== "Meteor") {
+          pokemon.formeChange("Minior-Meteor");
+        }
+      } else {
+        if (pokemon.species.forme === "Meteor") {
+          pokemon.formeChange(pokemon.set.species);
+        }
+      }
+    },
+    onResidualOrder: 29,
+    onResidual(pokemon) {
+      if (pokemon.baseSpecies.baseSpecies !== "Minior" || pokemon.transformed || !pokemon.hp)
+        return;
+      if (pokemon.hp > pokemon.maxhp / 2) {
+        if (pokemon.species.forme !== "Meteor") {
+          pokemon.formeChange("Minior-Meteor");
+        }
+      } else {
+        if (pokemon.species.forme === "Meteor") {
+          pokemon.formeChange(pokemon.set.species);
+        }
+      }
+    },
     onSetStatus(status, target, source, effect) {
       if (target.species.id !== "miniormeteor" || target.transformed)
         return;
@@ -5744,7 +5738,7 @@ const Abilities = {
       pokemon.transformed = false;
       delete pokemon.volatiles["zenmode"];
       if (pokemon.species.baseSpecies === "Darmanitan" && pokemon.species.battleOnly) {
-        pokemon.formeChange(pokemon.species.battleOnly, this.effect, true, "[silent]");
+        pokemon.formeChange(pokemon.species.battleOnly, this.effect, false, "[silent]");
       }
     },
     condition: {

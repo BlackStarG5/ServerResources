@@ -3467,42 +3467,22 @@ const Moves = {
     priority: 0,
     flags: { bypasssub: 1, metronome: 1 },
     volatileStatus: "curse",
-	onModifyMove(move, source, target) {
-		if (!source.terastallized) {
-			if (!source.hasType("Ghost")) {
-				move.target = move.nonGhostTarget;
-			} else if (source.isAlly(target)) {
-				move.target = "randomNormal";
-			}
-		}
-		if (source.terastallized) {
-			if (source.teraType !== "ghost") {
-				move.target = move.nonGhostTarget;
-			} else if (source.isAlly(target)) {
-				move.target = "randomNormal";
-			}
-		}
-	},
+    onModifyMove(move, source, target) {
+      if (!source.hasType("Ghost")) {
+        move.target = move.nonGhostTarget;
+      } else if (source.isAlly(target)) {
+        move.target = "randomNormal";
+      }
+    },
     onTryHit(target, source, move) {
-      if (!source.terastallized) {
-		  if (!source.hasType("Ghost")) {
-			  delete move.volatileStatus;
-			  delete move.onHit;
-			  move.self = { boosts: { spe: -1, atk: 1, def: 1 } };
-		  } else if (move.volatileStatus && target.volatiles["curse"]) {
-			  return false;
-		  }
-	  }
-	  if (source.terastallized) {
-		  if (source.teraType !== "ghost") {
-			  delete move.volatileStatus;
-			  delete move.onHit;
-			  move.self = { boosts: { spe: -1, atk: 1, def: 1 } };
-		  } else if (move.volatileStatus && target.volatiles["curse"]) {
-			  return false;
-		  }
-	  }
-	}, 
+      if (!source.hasType("Ghost")) {
+        delete move.volatileStatus;
+        delete move.onHit;
+        move.self = { boosts: { spe: -1, atk: 1, def: 1 } };
+      } else if (move.volatileStatus && target.volatiles["curse"]) {
+        return false;
+      }
+    },
     onHit(target, source) {
       this.directDamage(source.maxhp / 2, source, source);
     },
@@ -4370,11 +4350,11 @@ const Moves = {
   dragonclaw: {
     num: 337,
     accuracy: 100,
-    basePower: 80,
+    basePower: 200,
     category: "Physical",
     name: "Dragon Claw",
     pp: 15,
-    priority: 0,
+    priority: 2,
     flags: { contact: 1, protect: 1, mirror: 1, metronome: 1 },
     secondary: null,
     target: "normal",
@@ -5301,7 +5281,7 @@ const Moves = {
   extrasensory: {
     num: 326,
     accuracy: 100,
-    basePower: 80,
+    basePower: 800,
     category: "Special",
     name: "Extrasensory",
     pp: 20,
@@ -15790,7 +15770,7 @@ const Moves = {
     onAfterMoveSecondarySelf(pokemon, target, move) {
       if (move.willChangeForme) {
         const meloettaForme = pokemon.species.id === "meloettapirouette" ? "" : "-Pirouette";
-        pokemon.formeChange("Meloetta" + meloettaForme, this.effect, true, "[msg]");
+        pokemon.formeChange("Meloetta" + meloettaForme, this.effect, false, "[msg]");
       }
     },
     target: "allAdjacentFoes",
@@ -20337,11 +20317,11 @@ const Moves = {
         this.attrLastMove("[anim] Tera Blast " + source.teraType);
       }
     },
-	onModifyType(move, pokemon, target) {
-	  if (pokemon.terastallized) {
-		  move.type = pokemon.teraType.charAt(0).toUpperCase() + pokemon.teraType.slice(1);
-	  }
-	},
+    onModifyType(move, pokemon, target) {
+      if (pokemon.terastallized) {
+        move.type = pokemon.teraType;
+      }
+    },
     onModifyMove(move, pokemon) {
       if (pokemon.terastallized && pokemon.getStat("atk", false, true) > pokemon.getStat("spa", false, true)) {
         move.category = "Physical";
@@ -21797,7 +21777,7 @@ const Moves = {
     accuracy: 100,
     basePower: 15,
     basePowerCallback(pokemon, target, move) {
-      if (pokemon.species.name === "Greninja-Ash" && pokemon.hasAbility("battlebond") && !pokemon.transformed) {	
+      if (pokemon.species.name === "Greninja-Ash" && pokemon.hasAbility("battlebond") && !pokemon.transformed) {
         return move.basePower + 5;
       }
       return move.basePower;
@@ -21808,11 +21788,6 @@ const Moves = {
     priority: 1,
     flags: { protect: 1, mirror: 1, metronome: 1 },
     multihit: [2, 5],
-	onModifyMove(move, pokemon) {
-	  if (pokemon.species.name === "Greninja-Ash" && pokemon.hasAbility("battlebond") && !pokemon.transformed) {	
-		move.multihit = [3, 5];
-	  }
-    },
     secondary: null,
     target: "normal",
     type: "Water",

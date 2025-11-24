@@ -83,7 +83,7 @@ class Side {
     this.faintedThisTurn = null;
     this.totalFainted = 0;
     this.zMoveUsed = false;
-	this.dynamaxUsed = false;
+    this.dynamaxUsed = this.battle.gen !== 8;
     this.sideConditions = {};
     this.slotConditions = [];
     for (let i = 0; i < this.active.length; i++)
@@ -117,7 +117,7 @@ class Side {
     return "move";
   }
   canDynamaxNow() {
-    if (this.battle.gen !== 9)
+    if (this.battle.gen !== 8)
       return false;
     if (this.battle.gameType === "multi" && this.battle.turn % 2 !== [1, 1, 0, 0][this.n])
       return false;
@@ -523,7 +523,7 @@ ${sideUpdate}`);
       if (pokemon.volatiles["dynamax"]) {
         dynamax = false;
       } else {
-        if (this.battle.gen !== 9) {
+        if (this.battle.gen !== 8) {
           return this.emitChoiceError(`Can't move: Dynamaxing doesn't outside of Gen 8.`);
         } else if (pokemon.side.canDynamaxNow()) {
           return this.emitChoiceError(`Can't move: ${pokemon.name} can't Dynamax now.`);
@@ -551,7 +551,6 @@ ${sideUpdate}`);
       mega: mega || ultra,
       zmove: zMove,
       maxMove: maxMove ? maxMove.id : void 0,
-	  dynamax: dynamax,
       terastallize: terastallize ? pokemon.teraType : void 0
     });
     if (pokemon.maybeDisabled) {
