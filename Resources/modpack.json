@@ -1,6 +1,12 @@
 {
-  "sync_version": 1.3,
+  "sync_version": 1.4,
   "sync": [
+    {
+      "url": "https://github.com/BlackStarG5/ServerResources/raw/refs/heads/main/Resources/CobblemonQuest1.20.jar",
+      "name": "Cobblemon Quest",
+      "version": "1.20",
+      "type": "mod"
+    },
 	{
       "url": "https://github.com/BlackStarG5/ServerResources/raw/refs/heads/main/Resources/ftb-library-fabric-2101.1.20.jar",
       "name": "ftb-library-fabric",
