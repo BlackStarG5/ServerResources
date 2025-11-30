@@ -1,5 +1,5 @@
 {
-  "sync_version": 1.4,
+  "sync_version": 1.5,
   "sync": [
     {
       "url": "https://github.com/BlackStarG5/ServerResources/raw/refs/heads/main/Resources/CobblemonQuest1.20.jar",
@@ -35,7 +35,7 @@
   "modify": [
     {
 	 "type": "remove",
-	 "pattern": "^resourcepacks/TreysPack-.*\\.zip$",
+	 "pattern": "^resourcepacks/TreysPack.*\\.zip$",
 	 "path": "."
 	},
 	{
