@@ -1,5 +1,5 @@
 {
-  "sync_version": 1.6,
+  "sync_version": 1.7,
   "sync": [
     {
       "url": "https://github.com/BlackStarG5/ServerResources/raw/refs/heads/main/Resources/CobblemonQuest1.20.jar",
@@ -24,13 +24,7 @@
       "name": "ftb-teams-fabric",
       "version": "2101.1.4",
       "type": "mod"
-    },
-	{
-	  "url": "https://github.com/BlackStarG5/ServerResources/raw/refs/heads/main/Resources/Trey'sPack.zip",
-	  "name": "TreysPack",
-	  "version": "1.3",
-	  "type": "resourcepack"
-	}
+    }
   ],
   "modify": [
     {
